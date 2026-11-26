@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="description" content="Case study: Aira, a habit companion for women with PCOS. UI lead on a team of four at NYU.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aira Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:wght@900&family=Archivo:wdth,wght@62..125,800;62..125,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: calm, warm, confident; a designer's case study, not a pitch.
+   IDEA: the page behaves like Aira itself: a dark night app held in a light editorial frame.
+   PICTURE: real Aira screens in phone frames, fanned in the hero, then in rows per feature.
+   COLOUR and TYPE: off-white + charcoal (portfolio), Aira's peach #f4a36b as the one accent, lavender support; DM Sans throughout.
+   LAYOUT: dark hero with phones, light reading bands, dark screen bands, highlighted TO FILL notes. */
+:root{color-scheme:light dark;
+--bg:light-dark(#f6f3ee,#151414);--ink:light-dark(#1c1a1a,#efeae3);--mute:light-dark(#5f5a55,#b3aca4);
+--line:light-dark(#dcd6ce,#34312f);--card:light-dark(#ffffff,#1f1d1c);
+--night:#151414;--nightink:#efeae3;--peach:#f4a36b;--lav:#7b6a9e;--lavsoft:light-dark(#ece8f3,#2a2633);
+--fill:light-dark(#fff1b8,#4a3f12);--fillink:light-dark(#5c4600,#ffe48a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "DM Sans",system-ui,sans-serif;overflow-x:clip}
+html{scroll-padding-top:150px;scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.phone{transition:none!important}}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto}
+.band{padding:clamp(40px,6vw,88px) max(5vw,18px)}
+h1{font-size:clamp(40px,6vw,64px);line-height:1.02;margin:0 0 16px;font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(28px,3.4vw,40px);line-height:1.08;margin:0 0 18px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:20px;line-height:1.3;margin:28px 0 8px}
+p{margin:0 0 14px;max-width:66ch}
+.lead{font-size:clamp(19px,2vw,22px);line-height:1.45;max-width:30ch}
+.mute{color:var(--mute)}
+/* top bar: matches the First Edition landing page */
+.top{position:sticky;top:0;z-index:5;background:#F5EFE0;color:#1B1A17;border-bottom:3px solid #1B1A17;box-shadow:0 10px 24px -18px rgba(0,0,0,.5)}
+.top a{color:#1B1A17;text-decoration:none}
+.top .ne-mono{font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase}
+.top .ne-strip{display:flex;justify-content:space-between;gap:16px;padding:6px max(5vw,18px);font-size:11px;letter-spacing:.06em;border-bottom:1px solid #1B1A17;white-space:nowrap}
+.top .mast{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:6px max(5vw,18px) 8px}
+.top .mast>*{flex:none}
+.top .mast .fe{font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:clamp(26px,3vw,38px);line-height:1;letter-spacing:-.02em}
+.top .mast .nm{font-family:'Archivo',sans-serif;font-stretch:68%;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:.06em}
+.top .navrow{display:flex;align-items:center;gap:20px;padding:6px max(5vw,18px);border-top:1px solid #1B1A17;font-size:12px;font-weight:600;letter-spacing:.06em}
+.top .ne-main{display:flex;flex:none;gap:20px;white-space:nowrap}
+.top .ne-main a{padding:8px 2px}.top .ne-main a:hover,.top .ne-main a:focus-visible{text-decoration:underline;text-underline-offset:4px}
+.top .back{flex:none;display:inline-flex;align-items:center;min-height:34px;padding:0 14px;background:#1B1A17;color:#F5EFE0 !important;white-space:nowrap;transition:background .2s,color .2s}.top .back:hover,.top .back:focus-visible{background:#E4572E;color:#1B1A17 !important}
+.toc{display:flex;flex:1 1 0;justify-content:flex-end;gap:16px;overflow-x:auto;scrollbar-width:none;margin-left:auto;padding-left:16px;border-left:1px solid #1B1A17;font-size:11px;font-weight:400}
+.toc a{flex:none;opacity:.7;padding:9px 0}.toc a:hover,.toc a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:1100px){.toc{justify-content:flex-start}}
+@media(max-width:860px){.top .ne-strip span:nth-child(2){display:none}}
+@media(max-width:600px){.top .ne-strip{display:none}.top .ne-main a:last-child{display:none}.top .mast .nm{font-size:12px}}
+/* end CTA */
+.endcta{background:#F5EFE0;color:#1B1A17;text-align:center;border-top:3px solid #1B1A17}
+.endcta .wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
+.endcta .kick{margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#C2441F}
+.endcta h2{margin:0;max-width:18ch;font-family:'Archivo',sans-serif;font-stretch:68%;font-weight:900;text-transform:uppercase;font-size:clamp(40px,6vw,80px);line-height:.92}
+.endcta .deck{margin:0;max-width:46ch;font-family:'Source Serif 4',Georgia,serif;font-style:italic;font-size:18px;line-height:1.5}
+.endcta .btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:4px}
+.endcta .btns a{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;text-transform:uppercase;border:1.5px solid #1B1A17;transition:background .2s,color .2s,transform .2s}
+.endcta .btns a:hover{background:#E4572E;color:#1B1A17;transform:translateY(-2px)}
+.endcta .dark{background:#1B1A17;color:#F5EFE0}
+.endcta .light{background:transparent;color:#1B1A17}
+/* hero */
+.hero{background:var(--night);color:var(--nightink);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.tag{display:inline-block;font-size:14px;color:var(--peach);margin-bottom:14px}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px;margin-top:32px;border-top:1px solid #3a3735;padding-top:22px;font-size:15px}
+.meta b{display:block;color:#a39c94;font-weight:500;font-size:13px;margin-bottom:2px}
+.fan{position:relative;height:clamp(420px,52vw,620px)}
+.fan .phone{position:absolute;top:50%;left:50%;width:clamp(170px,19vw,240px);transition:transform .6s ease}
+.fan .p1{transform:translate(-120%,-46%) rotate(-7deg)}
+.fan .p2{transform:translate(-50%,-54%);z-index:2}
+.fan .p3{transform:translate(20%,-46%) rotate(7deg)}
+.fan:hover .p1{transform:translate(-128%,-46%) rotate(-9deg)}.fan:hover .p3{transform:translate(28%,-46%) rotate(9deg)}
+/* phone frame */
+.phone{aspect-ratio:440/956;border-radius:34px;padding:7px;background:#0b0b0b;box-shadow:0 0 0 1.5px #3b3836,0 30px 60px -20px rgba(0,0,0,.6),0 10px 24px -12px rgba(0,0,0,.5);margin:0}
+.phone img,.phone video{display:block;width:100%;height:100%;object-fit:cover;border-radius:28px;background:#151414}
+/* screen bands */
+.screens{background:var(--night);color:var(--nightink)}
+.screens .mute{color:#a39c94}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:36px;align-items:start}
+.row figure{margin:0}
+.row figcaption{font-size:14px;color:#a39c94;margin-top:14px;text-align:center}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+/* stats */
+.methods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:24px 0 36px}
+.methods div{background:var(--card);padding:20px}
+.methods strong{display:block;font-size:34px;line-height:1;margin-bottom:6px}
+.methods span{font-size:14px;color:var(--mute)}
+.stats{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.stats li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px;align-items:baseline;padding:16px 0;border-top:1px solid var(--line)}
+.stats .n{font-size:30px;font-weight:700;white-space:nowrap}
+.stats .n small{font-size:15px;color:var(--mute);font-weight:500}
+.bullets{padding-left:1.1em}.bullets li{margin-bottom:10px;max-width:62ch}
+.persona{background:var(--lavsoft);border-radius:18px;padding:26px 28px}
+.persona h3{margin-top:0}
+blockquote{margin:0;font-size:clamp(22px,2.6vw,30px);line-height:1.3;font-weight:500;max-width:30ch;text-wrap:balance}
+blockquote::before{content:"How might we";display:block;font-size:14px;color:var(--peach);font-weight:500;margin-bottom:10px}
+/* steps + formula */
+.steps{list-style:none;padding:0;margin:24px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--peach);color:#1c1a1a;font-weight:700;margin-bottom:12px}
+.steps b{display:block;font-size:19px;margin-bottom:4px}
+.formula{background:var(--night);color:var(--nightink);border-radius:16px;padding:24px 26px;margin:20px 0;font-size:clamp(15px,1.8vw,19px);display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.formula span{white-space:nowrap}.formula .t{background:#2a2726;border-radius:8px;padding:6px 10px}
+.formula .plus{color:#7ed1a4}.formula .minus{color:var(--peach)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
+.cards div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.cards b{display:block;font-size:18px;margin-bottom:4px}
+.cards p{margin:0;font-size:16px;color:var(--mute)}
+/* placeholders */
+.fill{background:var(--fill);color:var(--fillink);border-radius:12px;padding:14px 18px;font-size:15px;margin:16px 0;max-width:66ch;border:1.5px dashed currentColor}
+.fill b{display:block;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+.slot{aspect-ratio:440/956;border-radius:34px;border:2px dashed #5a5450;display:grid;place-items:center;text-align:center;padding:20px;color:#a39c94;font-size:14px}
+.slot.wide{aspect-ratio:16/9;border-radius:18px}
+.ds2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:28px;padding:clamp(18px,2.4vw,28px);background:var(--card);border:1px solid var(--line);border-radius:20px}
+.ds2 h3{margin:0 0 12px}.why{font-size:14px;color:var(--mute);margin:12px 0 0}
+.chips{display:flex;align-items:center;gap:6px;margin-bottom:8px}.chips span{width:76px;flex:none;font-size:13px;color:var(--mute)}
+.chips i{width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,0,0,.08);flex:none}
+.strip{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--line);flex:1;max-width:138px}.strip i{flex:1;height:30px;width:auto;border:0;border-radius:0}
+.aa{display:flex;align-items:center;gap:14px}.aa b{font-size:56px;line-height:1;font-weight:700}.aa small{color:var(--mute);font-size:13px}
+.scale{font-size:13px;color:var(--mute);margin:12px 0 0;font-variant-numeric:tabular-nums}
+.rad{display:flex;gap:8px}.rad i{font-style:normal;width:52px;height:52px;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;font-size:13px;color:var(--mute);box-shadow:0 4px 12px rgba(31,29,27,.08)}
+@media(max-width:860px){.ds2{grid-template-columns:minmax(0,1fr)}}
+footer{background:var(--night);color:#a39c94;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media(max-width:860px){.hero .wrap,.split{grid-template-columns:minmax(0,1fr)}.methods{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.row{grid-template-columns:repeat(2,minmax(0,1fr))}.row figure:nth-child(3){grid-column:1/-1;width:50%;justify-self:center}.cards{grid-template-columns:minmax(0,1fr)}.meta{grid-template-columns:minmax(0,1fr)}.stats li{grid-template-columns:minmax(0,1fr);gap:2px}.fan{height:420px}.fan .phone{width:150px}.toc{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="ne-strip ne-mono"><span>Page 2 · The stories</span><span>Product · NYU · 6 weeks</span><span>India · Price: one coffee</span></div>
+<div class="mast"><a class="fe" href="/">First Edition</a><span class="nm">Maria Goretti Steve</span></div>
+<div class="navrow ne-mono">
+  <a class="back" href="/">← Front page</a>
+  <nav class="ne-main" aria-label="Main"><a href="/archive">The Archive</a><a href="mailto:mariagsteve@gmail.com">Write in</a></nav>
+  <nav class="toc" aria-label="Sections">
+    <a href="#problem">Problem</a><a href="#research">Research</a><a href="#idea">Idea</a><a href="#energy">Energy</a><a href="#sleep">Sleep</a><a href="#decisions">Decisions</a><a href="#testing">Testing</a><a href="#system">System</a><a href="#next">Next</a>
+  </nav>
+</div>
+</header>
+
+<section class="band hero" id="top"><div class="wrap">
+  <div>
+    <span class="tag">Case study · Product design · Health</span>
+    <h1>Aira</h1>
+    <p class="lead">A gentle habit companion for women with PCOS, built around energy, not willpower.</p>
+    <div class="meta">
+      <div><b>My role</b>UI lead, plus user research and interviews</div>
+      <div><b>Team</b>Gopichand, Simran, Niranjana and me</div>
+      <div><b>Timeline</b>6 weeks</div>
+      <div><b>Tools</b>Figma</div>
+    </div>
+  </div>
+  <div class="fan" aria-label="Three Aira screens">
+    <figure class="phone p1"><img src="/aira/img/today.png" alt="Aira Today screen with a readiness score of 92"></figure>
+    <figure class="phone p2"><img src="/aira/img/energy.png" alt="Aira Energy check-in with colourful emotion shapes"></figure>
+    <figure class="phone p3"><img src="/aira/img/breathe.png" alt="Aira Zen Mode breathing screen"></figure>
+  </div>
+</div></section>
+
+<section class="band" id="problem"><div class="wrap split">
+  <div>
+    <h2>Too many apps, and none of them talk to each other</h2>
+  </div>
+  <div>
+    <p>PCOS affects around 1 in 5 women of reproductive age. It touches sleep, insulin, mood and energy, not just periods. Yet most people manage it with a stack of separate apps: one for periods, one for food, one for sleep.</p>
+    <p>So a bad night's sleep gets logged in one app, and the next day's sugar cravings in another. Nobody connects the two. Logging everything by hand becomes a chore, people burn out on tracking, and they're left with more guilt than answers.</p>
+    <p class="mute">The question we started with: why do people with PCOS struggle to keep up healthy habits, and what support would actually help them stay consistent?</p>
+  </div>
+</div></section>
+
+<section class="band" id="research" style="padding-top:0"><div class="wrap">
+  <h2>Research</h2>
+  <div class="methods">
+    <div><strong>5</strong><span>In-depth interviews, ages 22 to 35</span></div>
+    <div><strong>25</strong><span>Survey responses, 14 with PCOS</span></div>
+    <div><strong>1</strong><span>Interview with an endocrinologist</span></div>
+    <div><strong>+</strong><span>Desk research on apps and PCOS care</span></div>
+  </div>
+  <div class="split">
+    <div>
+      <h3 style="margin-top:0">What the survey showed</h3>
+      <ul class="stats">
+        <li><span class="n">12<small>/14</small></span><span><b>Symptoms don't follow a schedule.</b> Their worst time of day "varies too much to tell", so fixed routines break easily.</span></li>
+        <li><span class="n">9<small>/14</small></span><span><b>Low energy is the biggest blocker</b> when symptoms flare up.</span></li>
+        <li><span class="n">9<small>/14</small></span><span><b>Starting isn't the problem. Staying is.</b> They start strong but can't stay consistent.</span></li>
+        <li><span class="n">10<small>/14</small></span><span><b>They want support that fits them.</b> Personalized habit suggestions were the most wanted kind of help.</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">What the interviews added</h3>
+      <ul class="bullets">
+        <li><b>Symptoms feel like personal failure.</b> One person told us: "I feel like I'm fighting my own body every single day."</li>
+        <li><b>They want to know their capacity.</b> The real morning question: do I have the energy to push today, or do I need to rest?</li>
+        <li><b>Knowing why helps.</b> "You feel anxious because of where you are in your cycle" brought relief.</li>
+        <li><b>Tone matters.</b> Judgmental notifications made people anxious, not active.</li>
+      </ul>
+      <div class="persona">
+        <h3>Melanie, 28, the overwhelmed striver</h3>
+        <p style="margin:0">She starts every week with big plans and crashes by Wednesday. She feels tired but wired. She doesn't need an app that tells her to do more. She needs one that tells her when it's okay to do less.</p>
+      </div>
+      <div class="fill"><b>TO FILL, MARIA</b>Was Melanie built from the interviews? Add one line on what she's based on.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" style="background:var(--lavsoft)"><div class="wrap">
+  <blockquote>help people with PCOS build habits that adapt to how much energy they have today, instead of failing them on the hard days?</blockquote>
+</div></section>
+
+<section class="band" id="idea"><div class="wrap">
+  <h2>One daily read on your energy</h2>
+  <p>Aira brings five parts of PCOS health together: sleep, nutrition, movement, stress and cycle. It turns them into one score. On a low day it asks for less. On a good day it helps you make the most of it.</p>
+  <ol class="steps">
+    <li><b>Check</b>See your Hormonal Readiness Score, from 0 to 100.</li>
+    <li><b>Calibrate</b>See when your energy is likely to dip, based on your sleep and cycle phase.</li>
+    <li><b>Act</b>Pick food and movement that match your score, like yoga instead of HIIT on a low day.</li>
+  </ol>
+  <h3>How we modelled the score</h3>
+  <div class="formula" aria-label="Readiness equals sleep capacity minus insulin load minus cortisol load plus restorative bonus">
+    <span>Readiness =</span><span class="t">Sleep capacity</span><span class="minus">−</span><span class="t">Insulin load</span><span class="minus">−</span><span class="t">Cortisol load</span><span class="plus">+</span><span class="t">Restorative bonus</span>
+  </div>
+  <p>Sleep debt lowers your starting point. Sugary meals cost more after a short night. A hard workout on a stressful day costs more too. Walking or yoga earns points back. Users never see the maths, just one number shown like a battery.</p>
+</div></section>
+
+<section class="band screens" id="energy"><div class="wrap">
+  <div class="split">
+    <h2>The Energy tab</h2>
+    <div>
+      <p>This is the heart of the app, and I designed every screen in it. The day starts with the readiness score. Then Aira asks: how is this showing up for you? Instead of a form, you pick from soft emotion shapes, so the check-in feels calm, not clinical.</p>
+      <p class="mute">From there you can talk it through by voice, or drop into Zen Mode for a short guided breathing break. These clips are recorded from the Figma prototype.</p>
+    </div>
+  </div>
+  <div class="row">
+    <figure><div class="phone"><video src="/aira/vid/shapes.mp4" poster="/aira/vid/shapes.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Emotion shapes growing as they are tapped"></video></div><figcaption>Tap a feeling, it grows</figcaption></figure>
+    <figure><div class="phone"><video src="/aira/vid/talk.mp4" poster="/aira/vid/talk.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Choosing one thing, then talking it through by voice"></video></div><figcaption>Pick one thing, talk it through</figcaption></figure>
+    <figure><div class="phone"><video src="/aira/vid/breathe.mp4" poster="/aira/vid/breathe.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Zen Mode breathing shape expanding and contracting"></video></div><figcaption>Zen Mode breathing</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="band screens" id="sleep" style="padding-top:0"><div class="wrap">
+  <div class="split">
+    <h2>Sleep and Wind-down</h2>
+    <div>
+      <p>Sleep was one of the hardest habits in our survey, so I gave it its own space. It explains what last night means for today in plain language, linked to your cycle phase.</p>
+      <p class="mute">The Wind-down window breaks the evening into steps, three hours, two hours and one hour before bed, with one-minute reads on why each habit helps.</p>
+    </div>
+  </div>
+  <div class="row">
+    <figure><div class="phone"><img src="/aira/img/today.png" alt="Today screen with score gauge and insight cards" loading="lazy"></div><figcaption>Today's score, explained</figcaption></figure>
+    <figure><div class="phone"><video src="/aira/vid/sleeptl.mp4" poster="/aira/vid/sleeptl.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sleep timeline animating as the night is reviewed"></video></div><figcaption>Last night at a glance</figcaption></figure>
+    <figure><div class="phone"><video src="/aira/vid/winddown.mp4" poster="/aira/vid/winddown.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Switching between wind-down steps and opening an article"></video></div><figcaption>Wind-down window</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="band screens" style="padding-top:0"><div class="wrap">
+  <div class="split">
+    <div>
+      <h2>Learn and Track</h2>
+      <p>The Learn tab gives short, trustworthy reads that match what you're going through that day. I also helped design Cycle Insights and Activity Insights in the Track tab, which suggest gentle movement based on your cycle phase.</p><p class="mute">A home screen widget and warm notifications keep Aira present without nagging, like "Nice work getting some movement in, your hormones love steady routines."</p>
+    </div>
+    <div class="row" style="margin-top:0">
+      <figure><div class="phone"><video src="/aira/vid/learn.mp4" poster="/aira/vid/learn.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scrolling The Daily Pulse in the Learn tab"></video></div><figcaption>The Daily Pulse</figcaption></figure>
+      <figure><div class="phone"><img src="/aira/img/cycle.png" alt="Cycle Insights screen with period logging and phase insights" loading="lazy"></div><figcaption>Cycle Insights</figcaption></figure>
+      <figure><div class="phone"><img src="/aira/img/activity.png" alt="Activity Insights with tips for the luteal phase" loading="lazy"></div><figcaption>Activity Insights</figcaption></figure>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="decisions"><div class="wrap">
+  <h2>Design decisions</h2>
+  <div class="cards">
+    <div><b>Dark mode first</b><p>Many people with PCOS get migraines and are sensitive to light, so the app is dark by default.</p></div>
+    <div><b>No alarm colours for low scores</b><p>A low readiness score shows in calm colours, not alarm red, so a hard day never feels like a failure.</p></div>
+    <div><b>No calorie counts</b><p>Meals are logged with simple tags, and the numbers stay hidden.</p></div>
+    <div><b>Less typing</b><p>Sleep and steps come in from Apple Health, so people don't log everything by hand.</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="testing" style="padding-top:0"><div class="wrap split">
+  <div>
+    <h2>Testing and iteration</h2>
+    <p>We tested the wireframes by asking people to complete onboarding, check their score, use the widget, review their energy patterns and react to notifications.</p>
+    <div class="fill"><b>TO FILL, MARIA</b>Who tested the wireframes, and roughly how many people? Classmates, interviewees, or both?</div>
+  </div>
+  <ul class="stats">
+    <li><span class="n">01</span><span>Complex hormone graphs became <b>one battery-style score</b>.</span></li>
+    <li><span class="n">02</span><span>We added <b>passive data from Apple Health</b> to cut manual entry.</span></li>
+    <li><span class="n">03</span><span>Journaling became a <b>one-tap "Wired or Tired?" widget</b>.</span></li>
+    <li><span class="n">04</span><span>Notifications moved from reminders to <b>celebrating small wins</b>.</span></li>
+  </ul>
+</div></section>
+
+<section class="band" id="system"><div class="wrap">
+  <div class="split">
+    <h2>One shared system</h2>
+    <div>
+      <p>We built a shared design system so four people could design different tabs while the app still felt like one product. We chose the colours together as a team, and I designed the components: cards, buttons, emotion shapes and navigation.</p>
+    </div>
+  </div>
+  <div class="ds2">
+    <div>
+      <h3>Colour</h3>
+      <div class="chips"><span>Coral</span><i style="background:#FB7336" title="Primary #FB7336"></i><i style="background:#FFB088" title="Light #FFB088"></i><i style="background:#E05A1F" title="Dark #E05A1F"></i><i style="background:#FFF5F0" title="Background #FFF5F0"></i></div>
+      <div class="chips"><span>Lavender</span><i style="background:#A18ACA" title="Secondary #A18ACA"></i><i style="background:#D0C4E8" title="Light #D0C4E8"></i><i style="background:#7E65B5" title="Dark #7E65B5"></i><i style="background:#F5F2FA" title="Background #F5F2FA"></i></div>
+      <div class="chips"><span>Semantic</span><i style="background:#4CAF88" title="Success #4CAF88"></i><i style="background:#F4A261" title="Warning #F4A261"></i><i style="background:#EF4444" title="Error #EF4444"></i><i style="background:#6B9AC4" title="Info #6B9AC4"></i></div>
+      <div class="chips"><span>Neutrals</span><b class="strip"><i style="background:#000000"></i><i style="background:#1F1D1B"></i><i style="background:#4A4745"></i><i style="background:#78736F"></i><i style="background:#B8B3AE"></i><i style="background:#E8E4E0"></i><i style="background:#F7F5F3"></i><i style="background:#FFFFFF"></i></b></div>
+      <p class="why">Coral for energy and action, lavender for rest and calm.</p>
+    </div>
+    <div>
+      <h3>Type</h3>
+      <div class="aa"><b>Aa</b><span>DM Sans<br><small>Bold, SemiBold, Regular</small></span></div>
+      <p class="scale">32 · 24 · 20 · 18 · 16 · 14 · 12px</p>
+      <p class="why">One clear, easy-to-read font, even when someone is tired.</p>
+    </div>
+    <div>
+      <h3>Shape</h3>
+      <div class="rad"><i style="border-radius:12px">12</i><i style="border-radius:16px">16</i><i style="border-radius:20px">20</i><i style="border-radius:28px">28</i></div>
+      <p class="scale">Corner radius in px, with soft 6 to 10% shadows</p>
+      <p class="why">Rounded corners feel softer and friendlier.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="next"><div class="wrap split">
+  <div>
+    <h2>What's next</h2>
+    <p>Aira is a concept. The next step would be testing it with real users over a few weeks. Features we'd explore:</p>
+    <ul class="bullets">
+      <li><b>Glucose monitor sync</b> for real-time insulin insight</li>
+      <li><b>Crash forecasts</b> that warn of energy dips a day ahead</li>
+      <li><b>Anonymous community tips</b> from others in the same cycle phase</li>
+      <li><b>A view for doctors</b> to see patterns between appointments</li>
+    </ul>
+  </div>
+  <div>
+    <h2>What I learned</h2>
+    <div class="fill"><b>TO FILL, MARIA</b>2 or 3 honest lines. What surprised you in the research, a design decision you'd change, or what you'd test next.</div>
+  </div>
+</div></section>
+
+<section class="band endcta" aria-labelledby="endcta-h"><div class="wrap">
+  <p class="kick">End of story · Page 2</p>
+  <h2 id="endcta-h">More stories on the front page</h2>
+  <p class="deck">Brands, prints and the odd bakery. Pick up the rest of the issue, or write in about a project of your own.</p>
+  <div class="btns">
+    <a class="dark" href="/">← Back to the front page</a>
+    <a class="light" href="mailto:mariagsteve@gmail.com">Write in ↗</a>
+  </div>
+</div></section>
+
+<footer class="band"><div class="wrap">
+  <span>Maria Goretti Steve · Designer based in India</span>
+  <span style="display:flex;gap:20px;flex-wrap:wrap"><a href="/">← Back to portfolio</a><a href="#top">Back to top</a></span>
+</div></footer>
+</body>
+</html>
